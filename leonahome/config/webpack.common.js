@@ -3,11 +3,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const WebpackBar = require("webpackbar");
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
   plugins: [
     new WebpackBar(),
     new HtmlWebpackPlugin({
-      title: "Caching",
+      filename: "index.html",
+      template: path.resolve(__dirname, "../index.html"),
+      inject: true,
     }),
   ],
   output: {
@@ -27,6 +29,7 @@ module.exports = {
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
+        include: path.join(__dirname, "../src"),
         use: {
           loader: "babel-loader",
           options: {
@@ -37,6 +40,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: "ts-loader",
+        include: path.join(__dirname, "../src"),
         exclude: /node_modules/,
       },
       {
@@ -46,10 +50,20 @@ module.exports = {
           filename: "static/[hash][ext][query]",
         },
       },
+      {
+        test: /\.scss$/,
+        include: path.join(__dirname, "../src"), // 只让loader解析我们src底下自己写的文件
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "@": path.resolve(__dirname, "../src"),
+    },
+    //尝试按顺序解析这些后缀名
+    //能够使用户在引入模块时不带扩展：
+    extensions: [".tsx", ".ts", ".js", "scss"],
   },
   //   取消一些有关打包什么的警告
   performance: {

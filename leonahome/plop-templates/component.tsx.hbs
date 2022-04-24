@@ -1,0 +1,9 @@
+{{! ./plop-templates/component.tsx.hbs }}
+
+import React, { useEffect } from "react";
+export default function {{properCase name}}() {
+  useEffect(() => {
+    console.log("component");
+  }, []);
+  return <div className="{{dashCase name}}">{{name}}</div>;
+}

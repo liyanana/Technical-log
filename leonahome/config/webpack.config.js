@@ -1,3 +1,5 @@
+//整体的webpack配置文件 但是不使用这个因为要分离开发环境和生产环境
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");

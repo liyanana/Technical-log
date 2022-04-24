@@ -1,2 +1,0 @@
-# Technical-log
-Technical log
